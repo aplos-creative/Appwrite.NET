@@ -32,9 +32,11 @@ namespace Appwrite.NET.Services
 				{ "name", newUser.Name }
 			};
 
-			var response = await _appwrite.CallAsync("GET", basePath, parameters);
+			var response = await _appwrite.CallAsync("POST", basePath, parameters);
 
-			var user = JsonConvert.DeserializeObject<User>(response);
+
+
+			var user = JsonConvert.DeserializeObject<User>(response.Replace("$id", "id"));
 
 			return user;
 		}

@@ -42,7 +42,7 @@ namespace Appwrite.NET
 				"POST" => await PostAsync(path, parameters),
 				"PUT" => await PutAsync(path, parameters),
 				"DELETE" => await DeleteAsync(path),
-				_ => throw new AppwriteException($"The HTTP Method your provided 'method' is invalid!");
+				_ => throw new AppwriteException($"The HTTP Method your provided 'method' is invalid!")
 			};
 		}
 
@@ -76,12 +76,14 @@ namespace Appwrite.NET
 			return content;
 		}
 
-		public async Task DeleteAsync(string path) {
+		public async Task<string> DeleteAsync(string path) {
 			var response = await _http.DeleteAsync(_http.BaseAddress.AbsoluteUri + path);
 			var content = await response.Content.ReadAsStringAsync();
 
 			if ((int)response.StatusCode >= 400)
 				HandleException(content, (int)response.StatusCode);
+
+			return content;
 		}
 
 		private void HandleException(string response, int statusCode) {

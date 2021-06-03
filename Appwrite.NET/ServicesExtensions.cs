@@ -32,7 +32,8 @@ namespace Appwrite.NET
 			services.AddSingleton<AppwriteConfig>(new AppwriteConfig { 
 				Endpoint = config.Endpoint,
 				ProjectId = config.ProjectId,
-				SelfSigned = config.SelfSigned
+				SelfSigned = config.SelfSigned,
+				Key = config.Key
 			});
 
 			services.AddHttpClient<AppwriteClient>();
