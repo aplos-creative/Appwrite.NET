@@ -14,16 +14,17 @@ namespace Appwrite.NET.Services
 {
 	public class UsersService : IUsersService
 	{
-		private IHttpClientFactory _httpClientFactory;
+		private AppwriteClient _appwrite;
+		private const string basePath = "/users";
 
-		public UsersService(IHttpClientFactory httpClientFactory) {
-			_httpClientFactory = httpClientFactory;
+		public UsersService(AppwriteClient appwrite) {
+			_appwrite = appwrite;
 		}
 
-		public async Task List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) { throw new NotImplementedException(); }
-		public async Task<User> Create(UserCreateDTO newUser) {
-			string path = "/users";
+		public async Task List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) {
 
+		}
+		public async Task<User> Create(UserCreateDTO newUser) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
 				{ "email", newUser.Email },
@@ -31,19 +32,7 @@ namespace Appwrite.NET.Services
 				{ "name", newUser.Name }
 			};
 
-			var client = _httpClientFactory.CreateClient("appwrite");
-
-
-			var result = await client.PostAsJsonAsync(client.BaseAddress.AbsolutePath + path, parameters);
-			var response = await result.Content.ReadAsStringAsync();
-
-			// Should respond with a 201 status code
-			if ((int)result.StatusCode >= 400)
-			{
-
-				string message = (JObject.Parse(response))["message"].ToString();
-				throw new AppwriteException(message, (int)result.StatusCode, response.ToString());
-			}
+			var response = await _appwrite.CallAsync("GET", basePath, parameters);
 
 			var user = JsonConvert.DeserializeObject<User>(response);
 
