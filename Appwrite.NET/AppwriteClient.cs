@@ -93,6 +93,8 @@ namespace Appwrite.NET
 
 		private string ToParametersString(Dictionary<string, object> parameters)
 		{
+			if (parameters == null) return "";
+
 			return string.Join("&", parameters.Select(kvp => string.Format("{0}={1}", kvp.Key, kvp.Value)));
 		}
 	}

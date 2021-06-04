@@ -31,8 +31,7 @@ namespace Appwrite.NET.Services
 
 			var response = await _appwrite.CallAsync("GET", basePath, parameters);
 
-			var users = JsonSerializer.Deserialize<UsersList>(response);
-			return users;
+			return JsonSerializer.Deserialize<UsersList>(response);
 		}
 		public async Task<User> Create(UserCreateDTO newUser) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
@@ -44,17 +43,27 @@ namespace Appwrite.NET.Services
 
 			var response = await _appwrite.CallAsync("POST", basePath, parameters);
 
-			//var user = JsonConvert.DeserializeObject<User>(response);
-
-			var user = JsonSerializer.Deserialize<User>(response);
-			return user;
+			return JsonSerializer.Deserialize<User>(response);
 		}
-		public async Task Get(string userId) { throw new NotImplementedException(); }
-		public async Task DeleteUser(string userId) { throw new NotImplementedException(); }
-		public async Task GetLogs(string userId) { throw new NotImplementedException(); }
-		public async Task GetPrefs(string UserId) { throw new NotImplementedException(); }
-		public async Task UpdatePrefs(string UserId, object prefs) { throw new NotImplementedException(); }
-		public async Task GetSessions(string userId) { throw new NotImplementedException(); }
+		public async Task<User> Get(string userId) {
+			var response = await _appwrite.CallAsync("GET", $"{basePath}/{userId}");
+
+			return JsonSerializer.Deserialize<User>(response);
+		}
+		public async Task DeleteUser(string userId) {
+			await _appwrite.CallAsync("DELETE", $"{basePath}/{userId}");
+		}
+		public async Task<List<Log>> GetLogs(string userId) {
+			var response = await _appwrite.CallAsync("GET", $"{basePath}/{userId}/logs");
+			return JsonSerializer.Deserialize<LogsList>(response).Logs;
+		}
+		public async Task<object> GetPrefs(string userId) {
+			var response = await _appwrite.CallAsync("GET", $"{basePath}/{userId}/logs");
+			return JsonSerializer.Deserialize<object>(response);
+		}
+
+		public async Task<object> UpdatePrefs(string userId, object prefs) { throw new NotImplementedException(); }
+		public async Task<List<Session>> GetSessions(string userId) { throw new NotImplementedException(); }
 		public async Task DeleteSessions(string userId) { throw new NotImplementedException(); }
 		public async Task DeleteSession(string userId, string sessionId) { throw new NotImplementedException(); }
 		public async Task UpdateStatus(string userId, string status) { throw new NotImplementedException(); }
