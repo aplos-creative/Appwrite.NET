@@ -9,7 +9,7 @@ namespace Appwrite.NET.Interfaces
 {
 	public interface IUsersService
 	{
-		Task List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC);
+		Task<UsersList> List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC);
 		Task<User> Create(UserCreateDTO newUser);
 		Task Get(string userId);
 		Task DeleteUser(string userId);

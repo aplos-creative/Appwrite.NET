@@ -1,13 +1,12 @@
 ﻿using Appwrite.NET.Interfaces;
 using Appwrite.NET.Models;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Appwrite.NET.Services
@@ -21,8 +20,19 @@ namespace Appwrite.NET.Services
 			_appwrite = appwrite;
 		}
 
-		public async Task List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) {
+		public async Task<UsersList> List(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) {
+			Dictionary<string, object> parameters = new Dictionary<string, object>()
+			{
+				{ "search", search },
+				{ "limit", limit },
+				{ "offset", offset },
+				{ "orderType", orderType.ToString() }
+			};
 
+			var response = await _appwrite.CallAsync("GET", basePath, parameters);
+
+			var users = JsonSerializer.Deserialize<UsersList>(response);
+			return users;
 		}
 		public async Task<User> Create(UserCreateDTO newUser) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
@@ -34,10 +44,9 @@ namespace Appwrite.NET.Services
 
 			var response = await _appwrite.CallAsync("POST", basePath, parameters);
 
+			//var user = JsonConvert.DeserializeObject<User>(response);
 
-
-			var user = JsonConvert.DeserializeObject<User>(response.Replace("$id", "id"));
-
+			var user = JsonSerializer.Deserialize<User>(response);
 			return user;
 		}
 		public async Task Get(string userId) { throw new NotImplementedException(); }
