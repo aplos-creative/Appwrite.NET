@@ -11,28 +11,21 @@ using System.Threading.Tasks;
 
 namespace Appwrite.NET
 {
+	public interface IAppwriteClient {
+		Task<string> CallAsync(string method, string path, Dictionary<string, object> parameters = null);
+	}
+
 	public class AppwriteClient
 	{
-		private HttpClient _http;
+		private IHttpClientFactory _httpFactory;
 		private AppwriteConfig _config;
 
-		public AppwriteClient(HttpClient httpClient, AppwriteConfig config)
+		public AppwriteClient(IHttpClientFactory factory, AppwriteConfig config)
 		{
-			_http = httpClient;
+			_httpFactory = factory;
 			_config = config;
-
-			InitializeHttpClient();
 		}
 
-		private void InitializeHttpClient()
-		{
-			_http.BaseAddress = _config.EndpointUri();
-			_http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			_http.DefaultRequestHeaders.Add("x-sdk-version", "appwrite:dotnet:0.2.0");
-			_http.DefaultRequestHeaders.Add("X-Appwrite-Project", _config.ProjectId.ToString());
-			if (_config.Key != null)
-				_http.DefaultRequestHeaders.Add("X-Appwrite-Key", _config.Key.ToString());
-		}
 
 		public async Task<string> CallAsync(string method, string path, Dictionary<string, object> parameters = null)
 		{
@@ -47,41 +40,69 @@ namespace Appwrite.NET
 		}
 
 		public async Task<string> GetAsync(string path, Dictionary<string, object> parameters) {
-			var response = await _http.GetAsync(_http.BaseAddress.AbsoluteUri + path + ToParametersString(parameters));
+			var client = _httpFactory.CreateClient();
+
+			if (_config.Key != null)
+				client.DefaultRequestHeaders.Add("X-Appwrite-Key", _config.Key.ToString());
+
+			var response = await client.GetAsync(client.BaseAddress.AbsoluteUri + path + ToParametersString(parameters));
 			var content = await response.Content.ReadAsStringAsync();
 
 			if ((int)response.StatusCode >= 400)
 				HandleException(content, (int)response.StatusCode);
+
+			client.Dispose();
 
 			return content;
 		}
 
 		public async Task<string> PostAsync(string path, Dictionary<string, object> parameters) {
-			var response = await _http.PostAsJsonAsync(_http.BaseAddress.AbsoluteUri + path, parameters);
+			var client = _httpFactory.CreateClient();
+
+			if (_config.Key != null)
+				client.DefaultRequestHeaders.Add("X-Appwrite-Key", _config.Key.ToString());
+
+			var response = await client.PostAsJsonAsync(client.BaseAddress.AbsoluteUri + path, parameters);
 			var content = await response.Content.ReadAsStringAsync();
 
 			if ((int)response.StatusCode >= 400)
 				HandleException(content, (int)response.StatusCode);
+
+			client.Dispose();
 
 			return content;
 		}
 
 		public async Task<string> PutAsync(string path, Dictionary<string, object> parameters) {
-			var response = await _http.PutAsJsonAsync(_http.BaseAddress.AbsoluteUri + path, parameters);
+			var client = _httpFactory.CreateClient();
+
+			if (_config.Key != null)
+				client.DefaultRequestHeaders.Add("X-Appwrite-Key", _config.Key.ToString());
+
+			var response = await client.PutAsJsonAsync(client.BaseAddress.AbsoluteUri + path, parameters);
 			var content = await response.Content.ReadAsStringAsync();
 
 			if ((int)response.StatusCode >= 400)
 				HandleException(content, (int)response.StatusCode);
+
+			client.Dispose();
 
 			return content;
 		}
 
 		public async Task<string> DeleteAsync(string path) {
-			var response = await _http.DeleteAsync(_http.BaseAddress.AbsoluteUri + path);
+			var client = _httpFactory.CreateClient();
+
+			if (_config.Key != null)
+				client.DefaultRequestHeaders.Add("X-Appwrite-Key", _config.Key.ToString());
+
+			var response = await client.DeleteAsync(client.BaseAddress.AbsoluteUri + path);
 			var content = await response.Content.ReadAsStringAsync();
 
 			if ((int)response.StatusCode >= 400)
 				HandleException(content, (int)response.StatusCode);
+
+			client.Dispose();
 
 			return content;
 		}
