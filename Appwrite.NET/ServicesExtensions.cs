@@ -36,6 +36,7 @@ namespace Appwrite.NET
 				Key = config.Key
 			});
 
+
 			services.AddHttpClient<AppwriteClient>();
 
 			services.AddSingleton<IUsersService, UsersService>();

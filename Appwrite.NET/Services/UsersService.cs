@@ -58,14 +58,37 @@ namespace Appwrite.NET.Services
 			return JsonSerializer.Deserialize<LogsList>(response).Logs;
 		}
 		public async Task<object> GetPrefs(string userId) {
-			var response = await _appwrite.CallAsync("GET", $"{basePath}/{userId}/logs");
+			var response = await _appwrite.CallAsync("PUT", $"{basePath}/{userId}/prefs");
 			return JsonSerializer.Deserialize<object>(response);
 		}
 
-		public async Task<object> UpdatePrefs(string userId, object prefs) { throw new NotImplementedException(); }
-		public async Task<List<Session>> GetSessions(string userId) { throw new NotImplementedException(); }
-		public async Task DeleteSessions(string userId) { throw new NotImplementedException(); }
-		public async Task DeleteSession(string userId, string sessionId) { throw new NotImplementedException(); }
-		public async Task UpdateStatus(string userId, string status) { throw new NotImplementedException(); }
+		public async Task<object> UpdatePrefs(string userId, object prefs) {
+			Dictionary<string, object> parameters = new Dictionary<string, object>()
+			{
+				{ "prefs", prefs }
+			};
+
+			var response = await _appwrite.CallAsync("PUT", $"{basePath}/{userId}/prefs", parameters);
+			return JsonSerializer.Deserialize<object>(response);
+		}
+		public async Task<List<Session>> GetSessions(string userId) {
+			var response = await _appwrite.CallAsync("GET", $"{basePath}/{userId}/sessions");
+			return JsonSerializer.Deserialize<SessionsList>(response).Sessions;
+		}
+		public async Task DeleteSessions(string userId) {
+			await _appwrite.CallAsync("DELETE", $"{basePath}/{userId}/sessions");
+		}
+		public async Task DeleteSession(string userId, string sessionId) {
+			 await _appwrite.CallAsync("GET", $"{basePath}/{userId}/sessions/{sessionId}");
+		}
+		public async Task<User> UpdateStatus(string userId, string status) {
+			Dictionary<string, object> parameters = new Dictionary<string, object>()
+			{
+				{ "status", status }
+			};
+
+			var response = await _appwrite.CallAsync("PUT", $"{basePath}/{userId}/prefs", parameters);
+			return JsonSerializer.Deserialize<User>(response);
+		}
 	}
 }

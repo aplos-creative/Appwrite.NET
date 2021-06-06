@@ -19,6 +19,6 @@ namespace Appwrite.NET.Interfaces
 		Task<List<Session>> GetSessions(string userId);
 		Task DeleteSessions(string userId);
 		Task DeleteSession(string userId, string sessionId);
-		Task UpdateStatus(string userId, string status);
+		Task<User> UpdateStatus(string userId, string status);
 	}
 }
