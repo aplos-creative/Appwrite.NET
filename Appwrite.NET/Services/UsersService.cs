@@ -33,12 +33,12 @@ namespace Appwrite.NET.Services
 
 			return JsonSerializer.Deserialize<UsersList>(response);
 		}
-		public async Task<User> Create(UserCreateDTO newUser) {
+		public async Task<User> Create(string Email, string Password, string Name) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
-				{ "email", newUser.Email },
-				{ "password", newUser.Password },
-				{ "name", newUser.Name }
+				{ "email", Email },
+				{ "password", Password },
+				{ "name", Name }
 			};
 
 			var response = await _appwrite.CallAsync("POST", basePath, parameters);

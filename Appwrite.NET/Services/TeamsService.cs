@@ -30,11 +30,11 @@ namespace Appwrite.NET.Services
 
 			return JsonSerializer.Deserialize<TeamsList>(response);
 		}
-		public async Task<Team> Create(TeamCreateDTO team) {
+		public async Task<Team> Create(string Name, List<string> Roles) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
-				{ "name", team.Name },
-				{ "roles", team.Roles }
+				{ "name", Name },
+				{ "roles", Roles }
 			};
 
 			var response = await _appwrite.CallAsync("POST", basePath, parameters);
@@ -70,16 +70,16 @@ namespace Appwrite.NET.Services
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/{TeamId}/memberships");
 			return JsonSerializer.Deserialize<MembershipsList>(response).Memberships;
 		} 
-		public async Task<Membership> CreateMembership(MembershipCreateDTO membership) {
+		public async Task<Membership> CreateMembership(string TeamId, string Email, List<string> Roles, string Url, string Name) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
-				{ "email", membership.Email },
-				{ "name", membership.Name },
-				{ "roles", membership.Roles },
-				{ "url", membership.Url }
+				{ "email", Email },
+				{ "name", Name },
+				{ "roles", Roles },
+				{ "url", Url }
 			};
 
-			var response = await _appwrite.CallAsync("POST", $"{basePath}/{membership.TeamId}/memberships", parameters);
+			var response = await _appwrite.CallAsync("POST", $"{basePath}/{TeamId}/memberships", parameters);
 			return JsonSerializer.Deserialize<Membership>(response);
 		} 
 		public async Task DeleteMembership(string TeamId, string InviteId) {

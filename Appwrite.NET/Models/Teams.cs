@@ -22,10 +22,6 @@ namespace Appwrite.NET.Models
 		public int Sum { get; set; }
 	}
 
-	public class TeamCreateDTO {
-		public string Name { get; set; }
-		public List<string> Roles { get; set; }
-	}
 
 	public class TeamsList
 	{

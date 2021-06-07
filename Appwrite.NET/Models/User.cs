@@ -45,11 +45,4 @@ namespace Appwrite.NET.Models
 		public List<User> Users { get; set; }
 
 	}
-
-	public class UserCreateDTO
-	{
-		public string Email { get; set; }
-		public string Password { get; set; }
-		public string Name { get; set; }
-	}
 }

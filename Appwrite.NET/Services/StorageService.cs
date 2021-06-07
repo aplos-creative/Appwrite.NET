@@ -2,6 +2,7 @@
 using Appwrite.NET.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -31,12 +32,12 @@ namespace Appwrite.NET.Services
 
 			return JsonSerializer.Deserialize<FilesList>(response).Files;
 		}
-		public async Task<AppwriteFile> CreateFile(AppwriteFileCreateDTO file) {
+		public async Task<AppwriteFile> CreateFile(FileInfo file, List<string> Read, List<string> Write) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
-				{ "file", file.File },
-				{ "read", file.Read },
-				{ "write", file.Write }
+				{ "file", file },
+				{ "read", Read },
+				{ "write", Write }
 			};
 
 			var response = await _appwrite.CallAsync("POST", basePath, parameters);
@@ -48,14 +49,14 @@ namespace Appwrite.NET.Services
 
 			return JsonSerializer.Deserialize<AppwriteFile>(response);
 		}
-		public async Task<AppwriteFile> UpdateFile(AppwriteFileUpdateDTO file) {
+		public async Task<AppwriteFile> UpdateFile(string FileId, List<string> Read, List<string> Write) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
-				{ "read", file.Read },
-				{ "write", file.Write }
+				{ "read", Read },
+				{ "write", Write }
 			};
 
-			var response = await _appwrite.CallAsync("PUT", $"{basePath}/{file.FileID}", parameters);
+			var response = await _appwrite.CallAsync("PUT", $"{basePath}/{FileId}", parameters);
 			return JsonSerializer.Deserialize<AppwriteFile>(response);
 		}
 		public async Task DeleteFile(string fileId) {

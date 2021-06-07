@@ -37,18 +37,4 @@ namespace Appwrite.NET.Models
 		public int Sum { get; set; }
 		public List<AppwriteFile> Files { get; set; }
 	}
-
-	public class AppwriteFileCreateDTO
-	{
-		public FileInfo	File { get; set; }
-		public List<string> Read { get; set; }
-		public List<string> Write { get; set; }
-	}
-
-	public class AppwriteFileUpdateDTO
-	{
-		public string FileID { get; set; }
-		public List<string> Read { get; set; }
-		public List<string> Write { get; set; }
-	}
 }
