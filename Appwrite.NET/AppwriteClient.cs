@@ -13,6 +13,7 @@ namespace Appwrite.NET
 {
 	public interface IAppwriteClient {
 		Task<string> CallAsync(string method, string path, Dictionary<string, object> parameters = null);
+		string GetEndpoint();
 	}
 
 	public class AppwriteClient
@@ -39,6 +40,10 @@ namespace Appwrite.NET
 			};
 		}
 
+		public string GetEndpoint()
+		{
+			return _config.Endpoint;
+		}
 		public async Task<string> GetAsync(string path, Dictionary<string, object> parameters) {
 			var client = _httpFactory.CreateClient();
 
