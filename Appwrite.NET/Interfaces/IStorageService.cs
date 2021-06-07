@@ -14,8 +14,8 @@ namespace Appwrite.NET.Interfaces
 		Task<AppwriteFile> GetFile(string fileId);
 		Task<AppwriteFile> UpdateFile(AppwriteFileUpdateDTO file);
 		Task DeleteFile(string fileId);
-		Task<string> GetFileDownload(string fileId);
-		Task<string> GetFilePreview(string fileId, int? width = 0, int? height = 0, int? quality = 100, string background = "", string output = "");
-		Task<string> GetFileView(string fileId);
+		string GetFileDownload(string fileId);
+		string GetFilePreview(string fileId, int? width = 0, int? height = 0, int? quality = 100, string background = "", string output = "");
+		string GetFileView(string fileId);
 	}
 }

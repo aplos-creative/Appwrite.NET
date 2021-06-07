@@ -35,8 +35,8 @@ namespace Appwrite.NET.Services
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
 				{ "file", file.File },
-				{ "read", file.Permissions.Read },
-				{ "write", file.Permissions.Write }
+				{ "read", file.Read },
+				{ "write", file.Write }
 			};
 
 			var response = await _appwrite.CallAsync("POST", basePath, parameters);
@@ -51,8 +51,8 @@ namespace Appwrite.NET.Services
 		public async Task<AppwriteFile> UpdateFile(AppwriteFileUpdateDTO file) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
-				{ "read", file.Permissions.Read },
-				{ "write", file.Permissions.Write }
+				{ "read", file.Read },
+				{ "write", file.Write }
 			};
 
 			var response = await _appwrite.CallAsync("PUT", $"{basePath}/{file.FileID}", parameters);
@@ -61,10 +61,10 @@ namespace Appwrite.NET.Services
 		public async Task DeleteFile(string fileId) {
 			await _appwrite.CallAsync("DELETE", $"{basePath}/{fileId}");
 		}
-		public async Task<string> GetFileDownload(string fileId) {
+		public string GetFileDownload(string fileId) {
 			return $"{_appwrite.GetEndpoint()}/{basePath}/{fileId}/download";
 		}
-		public async Task<string> GetFilePreview(string fileId, int? width = 0, int? height = 0, int? quality = 100, string background = "", string output = "") {
+		public string GetFilePreview(string fileId, int? width = 0, int? height = 0, int? quality = 100, string background = "", string output = "") {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
 				{ "width", width },
@@ -75,7 +75,7 @@ namespace Appwrite.NET.Services
 			};
 			return $"{_appwrite.GetEndpoint()}/{basePath}/{fileId}/preview?{parameters.ToQueryString()}";
 		}
-		public async Task<string> GetFileView(string fileId) {
+		public string GetFileView(string fileId) {
 			return $"{_appwrite.GetEndpoint()}/{basePath}/{fileId}/view";
 		}
 	}
