@@ -13,10 +13,10 @@ namespace Appwrite.NET.Interfaces
 		Task<User> Create(string Email, string Password, string Name);
 		Task<User> Get(string userId);
 		Task DeleteUser(string userId);
-		Task<List<Log>> GetLogs(string userId);
+		Task<LogsList> GetLogs(string userId);
 		Task<object> GetPrefs(string userId);
 		Task<object> UpdatePrefs(string userId, object prefs);
-		Task<List<Session>> GetSessions(string userId);
+		Task<SessionsList> GetSessions(string userId);
 		Task DeleteSessions(string userId);
 		Task DeleteSession(string userId, string sessionId);
 		Task<User> UpdateStatus(string userId, string status);

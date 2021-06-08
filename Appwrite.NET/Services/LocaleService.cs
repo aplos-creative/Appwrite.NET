@@ -23,35 +23,35 @@ namespace Appwrite.NET.Services
 
 			return JsonSerializer.Deserialize<Locale>(response);
 		}
-		public async Task<List<Continent>> GetContinents() {
+		public async Task<ContinentsList> GetContinents() {
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/continents");
 
-			return JsonSerializer.Deserialize<ContinentsList>(response).Continents;
+			return JsonSerializer.Deserialize<ContinentsList>(response);
 		}
-		public async Task<List<Country>> GetCountries() {
+		public async Task<CountriesList> GetCountries() {
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/countries");
 
-			return JsonSerializer.Deserialize<CountriesList>(response).Countries;
+			return JsonSerializer.Deserialize<CountriesList>(response);
 		}
-		public async Task<List<Country>> GetCountriesEU() {
+		public async Task<CountriesList> GetCountriesEU() {
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/countries/eu");
 
-			return JsonSerializer.Deserialize<CountriesList>(response).Countries;
+			return JsonSerializer.Deserialize<CountriesList>(response);
 		}
-		public async Task<List<PhoneCode>> GetPhoneCodes() {
+		public async Task<PhoneCodesList> GetPhoneCodes() {
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/phones");
 
-			return JsonSerializer.Deserialize<PhoneCodesList>(response).Phones;
+			return JsonSerializer.Deserialize<PhoneCodesList>(response);
 		}
-		public async Task<List<Currency>> GetCurrencies() {
+		public async Task<CurrenciesList> GetCurrencies() {
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/currencies");
 
-			return JsonSerializer.Deserialize<CurrenciesList>(response).Currencies;
+			return JsonSerializer.Deserialize<CurrenciesList>(response);
 		}
-		public async Task<List<Language>> GetLanguages() {
+		public async Task<LanguagesList> GetLanguages() {
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/languages");
 
-			return JsonSerializer.Deserialize<LanguagesList>(response).Languages;
+			return JsonSerializer.Deserialize<LanguagesList>(response);
 		}
 	}
 }

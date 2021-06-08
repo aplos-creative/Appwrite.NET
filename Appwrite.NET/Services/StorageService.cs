@@ -19,7 +19,7 @@ namespace Appwrite.NET.Services
 			_appwrite = appwrite;
 		}
 
-		public async Task<List<AppwriteFile>> ListFiles(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) {
+		public async Task<FilesList> ListFiles(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
 				{ "search", search },
@@ -30,7 +30,7 @@ namespace Appwrite.NET.Services
 
 			var response = await _appwrite.CallAsync("GET", basePath, parameters);
 
-			return JsonSerializer.Deserialize<FilesList>(response).Files;
+			return JsonSerializer.Deserialize<FilesList>(response);
 		}
 		public async Task<AppwriteFile> CreateFile(FileInfo file, List<string> Read, List<string> Write) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()

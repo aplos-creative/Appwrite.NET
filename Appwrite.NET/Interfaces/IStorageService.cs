@@ -10,7 +10,7 @@ namespace Appwrite.NET.Interfaces
 {
 	public interface IStorageService
 	{
-		Task<List<AppwriteFile>> ListFiles(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC);
+		Task<FilesList> ListFiles(string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC);
 		Task<AppwriteFile> CreateFile(FileInfo file, List<string> Read, List<string> Write);
 		Task<AppwriteFile> GetFile(string fileId);
 		Task<AppwriteFile> UpdateFile(string FileId, List<string> Read, List<string> Write);

@@ -53,9 +53,9 @@ namespace Appwrite.NET.Services
 		public async Task DeleteUser(string userId) {
 			await _appwrite.CallAsync("DELETE", $"{basePath}/{userId}");
 		}
-		public async Task<List<Log>> GetLogs(string userId) {
+		public async Task<LogsList> GetLogs(string userId) {
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/{userId}/logs");
-			return JsonSerializer.Deserialize<LogsList>(response).Logs;
+			return JsonSerializer.Deserialize<LogsList>(response);
 		}
 		public async Task<object> GetPrefs(string userId) {
 			var response = await _appwrite.CallAsync("PUT", $"{basePath}/{userId}/prefs");
@@ -71,9 +71,9 @@ namespace Appwrite.NET.Services
 			var response = await _appwrite.CallAsync("PUT", $"{basePath}/{userId}/prefs", parameters);
 			return JsonSerializer.Deserialize<object>(response);
 		}
-		public async Task<List<Session>> GetSessions(string userId) {
+		public async Task<SessionsList> GetSessions(string userId) {
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/{userId}/sessions");
-			return JsonSerializer.Deserialize<SessionsList>(response).Sessions;
+			return JsonSerializer.Deserialize<SessionsList>(response);
 		}
 		public async Task DeleteSessions(string userId) {
 			await _appwrite.CallAsync("DELETE", $"{basePath}/{userId}/sessions");

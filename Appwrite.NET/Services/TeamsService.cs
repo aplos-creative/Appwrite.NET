@@ -58,7 +58,7 @@ namespace Appwrite.NET.Services
 		public async Task Delete(string TeamId) {
 			await _appwrite.CallAsync("DELETE", $"{basePath}/{TeamId}");
 		} 
-		public async Task<List<Membership>> GetMemberships(string TeamId, string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) {
+		public async Task<MembershipsList> GetMemberships(string TeamId, string search = "", int? limit = 25, int? offset = 0, OrderType orderType = OrderType.ASC) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
 			{
 				{ "search", search },
@@ -68,7 +68,7 @@ namespace Appwrite.NET.Services
 			};
 
 			var response = await _appwrite.CallAsync("GET", $"{basePath}/{TeamId}/memberships");
-			return JsonSerializer.Deserialize<MembershipsList>(response).Memberships;
+			return JsonSerializer.Deserialize<MembershipsList>(response);
 		} 
 		public async Task<Membership> CreateMembership(string TeamId, string Email, List<string> Roles, string Url, string Name) {
 			Dictionary<string, object> parameters = new Dictionary<string, object>()
